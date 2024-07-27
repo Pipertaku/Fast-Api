@@ -16,8 +16,8 @@ router = APIRouter(
 def create_user(user:PostUser, db: Session= Depends(get_db)):
     
     
-    user = db.query(model.User).filter(model.User.email ==user.email,model.User.username ==user.username).first()
-    if not user:
+    users = db.query(model.User).filter(model.User.email ==user.email,model.User.username ==user.username).first()
+    if not users:
         hashed_password= hash(user.password)
         user.password = hashed_password
         new_user = model.User(**user.dict())
