@@ -23,6 +23,15 @@ class PostResponseSchema(PostSchema):
 
     class Config:
         from_attributes = True
+
+class Posts_Scheme_Response(PostSchema):
+    id:int
+    owner_id:int
+    
+    class Config:
+        from_attributes = True
+    
+    
         
 
 

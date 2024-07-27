@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, status,APIRouter
 from typing import Optional
 from .. import model
-from ..Posts_Scheme import PostSchema,PostResponseSchema
+from ..Posts_Scheme import PostSchema,PostResponseSchema,Posts_Scheme_Response
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..aoth2 import get_current_user
@@ -11,7 +11,7 @@ from sqlalchemy import func
 router = APIRouter(prefix="/posts",tags=["Posts"])
 
 # Create a new post
-@router.post("/", response_model=PostResponseSchema, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=Posts_Scheme_Response, status_code=status.HTTP_201_CREATED)
 def create_post(post: PostSchema, db: Session = Depends(get_db),current_user:int = Depends(get_current_user)):
     
     
