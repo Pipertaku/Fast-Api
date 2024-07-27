@@ -15,14 +15,19 @@ router = APIRouter(
 @router.post("/",response_model=Responseuser, status_code=status.HTTP_201_CREATED)
 def create_user(user:PostUser, db: Session= Depends(get_db)):
     
-    hashed_password= hash(user.password)
-    user.password = hashed_password
-    new_user = model.User(**user.dict())
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
     
-    return new_user
+    user = db.query(model.User).filter(model.User.email ==user.email,model.User.username ==user.username).first()
+    if not user:
+        hashed_password= hash(user.password)
+        user.password = hashed_password
+        new_user = model.User(**user.dict())
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        
+        return new_user
+    raise HTTPException(status_code=status.HTTP_409_CONFLICT,detail="already exits!")
+
     
 
 @router.get("/{id}",response_model= Responseuser,status_code=status.HTTP_200_OK)
